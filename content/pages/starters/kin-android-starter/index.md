@@ -10,25 +10,51 @@ eleventyNavigation:
 ---
 
 ## Introduction
+This will get your Android app Kin enabled in a few minutes. All you need to do is add a simple class file to your app, and you should be able to make calls to Kin's blockchain immediately.
 
-Vestibulum ipsum mi, tempor vel massa et, auctor cursus risus. Nam condimentum dictum nulla, a pretium dui cursus eget. Etiam convallis lectus porta maximus pulvinar. Fusce interdum sit amet ex sit amet dapibus. Vestibulum feugiat urna id porttitor interdum. Fusce tempus erat sit amet augue blandit sollicitudin. Duis ut imperdiet nulla. Sed tempor pellentesque posuere. Quisque ullamcorper tellus ut ante posuere, ut placerat augue rutrum. Etiam nec dapibus dui. Vestibulum blandit aliquet ipsum eu sollicitudin.
 
 ## Requirements
+Make sure you have read [Getting Started](https://kintegrate.netlify.app/tutorials/getting-started/) and have the required environment variables
 
-Integer eu maximus eros. Ut luctus pharetra magna pharetra gravida. Etiam arcu velit, hendrerit eu magna gravida, luctus egestas lorem. Aliquam et elit nec purus accumsan porttitor. Curabitur iaculis porta vehicula. Phasellus iaculis maximus est, non lobortis enim vehicula id. Nulla facilisi. Etiam a interdum diam. Donec dapibus finibus eros, sed faucibus sapien vehicula eget. In tincidunt est dictum malesuada maximus.
 
 ## Installation
 
-Aliquam consequat dictum ex, eu aliquet sapien eleifend et. Nam viverra leo eget vehicula semper. Morbi imperdiet cursus ex eu congue. Quisque laoreet facilisis nunc ac mattis. Nulla augue leo, aliquam a nulla non, pharetra lobortis enim. Vestibulum mollis rhoncus lectus, sed volutpat ante facilisis in. Maecenas vel interdum ipsum. Integer sit amet ornare lorem, non venenatis lectus. Cras magna sem, sollicitudin in nunc ut, maximus cursus ante.
+1. Add the [Kin.kt](https://github.com/hitwill/kin-implementation-kotlin/blob/master/app/src/main/java/com/kin/kin/Kin.kt) class to your app 
+2. Add entries in [AndroidManifest.xml](https://github.com/hitwill/kin-implementation-kotlin/blob/master/quick-start/AndroidManifest.xml) to your app's manifest
+3. Add entries in [build.gradle](https://github.com/hitwill/kin-implementation-kotlin/blob/master/quick-start/build.gradle) to your app's gradle
+4. Make sure `app_icon.png` exists in your `res\drawable` folder
+5. Import and instantiate the class in any `activity`. 
+    * Instantiation requires several variables from the getting started section:
+    ```kotlin
+      val kin = Kin(
+            applicationContext, //Application context
+            false, //In Production mode
+            165, //Your App Index
+            "GC6D...32XS", //Your Public Address
+            "MyUser", //Your device's current user
+            "MyPassword", //Device's current password
+            ::balanceChanged, //get notifications for balance changes
+            ::paymentHappened //get notifications for payments
+        )
+    ```
+6. See [MainActivity.kt](https://github.com/hitwill/kin-implementation-kotlin/blob/master/quick-start/MainActivity.kt) for instantiation and sample calls
 
-## Base project
+## Note on Webhooks
+Any transactions made by the device will alert your server with a webhook. (see server tutorials). Your server will receive a notification of the transaction, including `MyUser` and `MyPassword` credentials above. The credentails help your server track transactions from specific users.
 
-Praesent euismod bibendum massa, quis iaculis risus condimentum id. Phasellus euismod fermentum nisl, eget gravida ligula blandit eget. Nulla at convallis ipsum. Cras consectetur malesuada nisi ut ullamcorper. Nam pellentesque vitae neque et rutrum. Nulla quis ante mi. Proin libero nulla, sollicitudin fringilla odio vel, tincidunt placerat urna. Aliquam sit amet elit nisi. Integer efficitur tortor eget orci convallis, a tempus quam egestas.
+However, you can safely test your device code without turning on your webhooks.
 
-## Integrate Kin
+## Demo App
+A demo App is included that you can run and test. To use the app:
 
-Quisque nec congue velit. Fusce sagittis egestas interdum. Phasellus faucibus dolor sit amet nulla ornare efficitur. Vivamus a odio dictum, dictum dui ac, ultrices erat. Praesent quis mauris lacus. Morbi euismod congue ante, vel iaculis orci. Nam dictum pulvinar tellus ac bibendum. Integer vulputate leo eget risus congue, eget finibus ligula facilisis. Donec dignissim dui ut sem hendrerit tristique. Sed posuere erat id sodales vehicula. Aliquam sed augue in nisi gravida dictum. In hac habitasse platea dictumst. Donec ultrices leo nec nisi rutrum tristique. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas ut leo ut arcu tincidunt sodales. Vivamus non egestas nisi.
+1. Pull https://github.com/hitwill/kin-implementation-kotlin into a local folder 
+2. Access the `/demo` folder to your local.
+3. Open in android studio and click run to emulate it. The app runs on Kin's test network and will display its Kin blockchain address on startup, which will have 0 Kin.
 
-## Deploy App
+### Kin Drops
+To fund the demo app or any address in Kin's `TEST` blockchain,  simply copy its address and paste it to Kin drops:
 
-Nulla efficitur consectetur elementum. Morbi diam purus, efficitur sed viverra in, congue pulvinar sapien. Vestibulum in tellus in diam accumsan auctor luctus in lacus. Praesent quis ullamcorper nibh, at laoreet mauris. Cras non congue arcu, quis sodales sapien. Curabitur pretium vitae sapien vel feugiat. Quisque interdum mollis elit, id congue dolor semper id. Fusce facilisis dapibus tellus. Vivamus vitae semper dui, rutrum finibus nulla. Aliquam odio sem, consequat sit amet rutrum id, malesuada sit amet risus. Curabitur imperdiet lectus vitae ultrices vestibulum. Suspendisse egestas ac magna eu ultrices. Nulla blandit sollicitudin ultrices. Curabitur in sem semper, tristique libero id, tristique ipsum. Etiam ullamcorper odio at nulla interdum feugiat non at est. Sed maximus, nisl in luctus auctor, lacus turpis porttitor orci, nec feugiat mauris tortor non risus.
+https://kin-drops.herokuapp.com/?ADDRESS_HERE
+
+The service will send it 10 Kin in the test network. You can refresh this as often as you like to add more Kin to your app.
+

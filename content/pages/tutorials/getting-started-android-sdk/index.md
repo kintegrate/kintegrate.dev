@@ -9,26 +9,121 @@ eleventyNavigation:
   title: Android
 ---
 
-## Introduction
 
-Vestibulum ipsum mi, tempor vel massa et, auctor cursus risus. Nam condimentum dictum nulla, a pretium dui cursus eget. Etiam convallis lectus porta maximus pulvinar. Fusce interdum sit amet ex sit amet dapibus. Vestibulum feugiat urna id porttitor interdum. Fusce tempus erat sit amet augue blandit sollicitudin. Duis ut imperdiet nulla. Sed tempor pellentesque posuere. Quisque ullamcorper tellus ut ante posuere, ut placerat augue rutrum. Etiam nec dapibus dui. Vestibulum blandit aliquet ipsum eu sollicitudin.
+## Introduction
+This tutorial will take you through the basics of creating a Kin enabled app using Kotlin. 
+
 
 ## Requirements
+Make sure you have read [Getting Started](https://kintegrate.netlify.app/tutorials/getting-started/) and have the required environment variables
 
-Integer eu maximus eros. Ut luctus pharetra magna pharetra gravida. Etiam arcu velit, hendrerit eu magna gravida, luctus egestas lorem. Aliquam et elit nec purus accumsan porttitor. Curabitur iaculis porta vehicula. Phasellus iaculis maximus est, non lobortis enim vehicula id. Nulla facilisi. Etiam a interdum diam. Donec dapibus finibus eros, sed faucibus sapien vehicula eget. In tincidunt est dictum malesuada maximus.
 
-## Installation
+## Implementing Kin in your app
+1. Create an empty Android app and add the [Kin.kt](https://github.com/hitwill/kin-implementation-kotlin/blob/master/app/src/main/java/com/kin/kin/Kin.kt) class to your app
+   * The class abstracts some of the calls to Kin's official SDK and is fully useable out of the box. However, you can easily extend it to suite your custom needs.
 
-Aliquam consequat dictum ex, eu aliquet sapien eleifend et. Nam viverra leo eget vehicula semper. Morbi imperdiet cursus ex eu congue. Quisque laoreet facilisis nunc ac mattis. Nulla augue leo, aliquam a nulla non, pharetra lobortis enim. Vestibulum mollis rhoncus lectus, sed volutpat ante facilisis in. Maecenas vel interdum ipsum. Integer sit amet ornare lorem, non venenatis lectus. Cras magna sem, sollicitudin in nunc ut, maximus cursus ante.
+2. Add the entry in [AndroidManifest.xml](https://github.com/hitwill/kin-implementation-kotlin/blob/master/quick-start/AndroidManifest.xml) to your app's manifest
+    * The entry just makes sure your app can connect to the internet, which it needs to, to send and receive transactions
+3. Add entries in [build.gradle](https://github.com/hitwill/kin-implementation-kotlin/blob/master/quick-start/build.gradle) to your app's gradle
+    * The gradle file adds the official Kin SDK dependencies to your build
+4. Make sure `app_icon.png` exists in your `res\drawable` folder
+    * This is for a future expansion of the SDK, although it is currently required for instantiation.
+5. Import and instantiate the class in any `activity`. 
+    * Instantiation requires several variables from the getting started section:
+    ```kotlin
+      val kin = Kin(
+            applicationContext, //Application context
+            false, //In Production mode
+            165, //Your App Index
+            "GC6D...32XS", //Your Public Address
+            "MyUser", //Your device's current user
+            "MyPassword", //Device's current password
+            ::balanceChanged, //get notifications for balance changes
+            ::paymentHappened //get notifications for payments
+        )
+    ```
+    * The `app index` and `public address` are used by the Kin foundation to track blockchain transactions your app makes, and also authorize fee-less transaxtions for your app.
 
-## Base project
+Contratualtions! You now have a Kin enabled app running!
 
-Praesent euismod bibendum massa, quis iaculis risus condimentum id. Phasellus euismod fermentum nisl, eget gravida ligula blandit eget. Nulla at convallis ipsum. Cras consectetur malesuada nisi ut ullamcorper. Nam pellentesque vitae neque et rutrum. Nulla quis ante mi. Proin libero nulla, sollicitudin fringilla odio vel, tincidunt placerat urna. Aliquam sit amet elit nisi. Integer efficitur tortor eget orci convallis, a tempus quam egestas.
+## Making calls to the Kin blockchain
+### Public addresses
+Kin is all about exchanging value between users and your server. (Sending and Receiving Kin). In order to exchange value, each device needs to have a `public address` (like an email address) that it can receive Kin from. Do not confuse the app's public address with the one you used to initialize the SDK. The public address above belongs to your server.
 
-## Integrate Kin
+To see your device's public address, call:
+```kotlin
+kin.address()
+```
 
-Quisque nec congue velit. Fusce sagittis egestas interdum. Phasellus faucibus dolor sit amet nulla ornare efficitur. Vivamus a odio dictum, dictum dui ac, ultrices erat. Praesent quis mauris lacus. Morbi euismod congue ante, vel iaculis orci. Nam dictum pulvinar tellus ac bibendum. Integer vulputate leo eget risus congue, eget finibus ligula facilisis. Donec dignissim dui ut sem hendrerit tristique. Sed posuere erat id sodales vehicula. Aliquam sed augue in nisi gravida dictum. In hac habitasse platea dictumst. Donec ultrices leo nec nisi rutrum tristique. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas ut leo ut arcu tincidunt sodales. Vivamus non egestas nisi.
+The SDK returns the blockchain address in two formats - Stellar and Solana. (See getting started for details). However, the wrapper abstracts this and returns the Solana version to your app.
 
-## Deploy App
+### Tracking balances and payments
+During instantiation, you passed two functions to your app. Here is a sample implementation of these functions:
+```kotlin
+  private fun balanceChanged(balance: KinBalance) {
+    //Use this to update your user's current balance
+    Log.d("Kin", "Current balance:" + balance.amount.toString()) //current balance
+  }
 
-Nulla efficitur consectetur elementum. Morbi diam purus, efficitur sed viverra in, congue pulvinar sapien. Vestibulum in tellus in diam accumsan auctor luctus in lacus. Praesent quis ullamcorper nibh, at laoreet mauris. Cras non congue arcu, quis sodales sapien. Curabitur pretium vitae sapien vel feugiat. Quisque interdum mollis elit, id congue dolor semper id. Fusce facilisis dapibus tellus. Vivamus vitae semper dui, rutrum finibus nulla. Aliquam odio sem, consequat sit amet rutrum id, malesuada sit amet risus. Curabitur imperdiet lectus vitae ultrices vestibulum. Suspendisse egestas ac magna eu ultrices. Nulla blandit sollicitudin ultrices. Curabitur in sem semper, tristique libero id, tristique ipsum. Etiam ullamcorper odio at nulla interdum feugiat non at est. Sed maximus, nisl in luctus auctor, lacus turpis porttitor orci, nec feugiat mauris tortor non risus.
+  private fun paymentHappened(payments: List<KinPayment>) {
+    //Use this to know when a payment has taken place
+    Log.d("Kin", payments.toString())
+  }
+```
+These are passive listeners to transactions on your Kin account. They will report changes in the balance:
+1. On instatiation (use this to grab your app's initial balance)
+2. When your app makes an **outgoing** payment
+
+Note that it may take a minute or two for them to fire, after a payment has beeen made. In order to check if the balance has changed from an **incoming** payment, you need to call:
+```kotlin
+  kin.checkTransactions()
+```
+When a transaction takes place in the blockchain, it may take a minute to reflect in the balance. If you call `checkTransactions()` too early, you will not get the correct balance. E.g. if your app has 10 Kin, and you send it 10 Kin from another app, and immediately call `checkTransactions()`, you will not get the up to date balance.
+
+This is the most conservative and recommended way to monitor balances and transactions. However, you can modify the function in the class to listen more aggressively, which will consume your app's resources.
+
+
+To test your listeners, runn your app, get its address, and send it some Kin in the `Test blockchain`. You can do that by pasting the app's address to `Kin Drops.`
+https://kin-drops.herokuapp.com/?YOUR_APP_ADDRESS
+
+Calling `checkTransactions()` will give you the updated balance.
+
+### Viewing transactions
+You can view transactions to and from your app, by pasting your app address on: https://explorer.solana.com/address/
+
+If you are on the `Test envoronment`, click the `Main Net` button and switch it to custom, and enter the url: https://local.validator.agorainfra.dev. This will let you see transactions in the test network.
+
+
+### Sending Kin
+The Kin SDK allows you to send a single `payment`, that includes an `invoice` with multiple items. An invoice helps you keep track of what your users bought in your app. To send a payment, you first create an invoice with 1 or more items:
+
+```kotlin
+var paymentItems = mutableListOf<Pair<String, Double>>()
+paymentItems.add(Pair("One Hamburger", 2.00))
+paymentItems.add(Pair("Tip the waitress", 0.50))
+```
+
+You then send this out by calling:
+```kotlin
+  kin.sendKin(
+    paymentItems,
+    "C2Tb36xUjDDiN4H3xE2T7PuBFb1gdCvP7znen1m8FStJ",
+    KinBinaryMemo.TransferType.Spend,
+  ::sentKin
+)
+```
+The SDK will convert the invoice into a hash, save the payment items for future reference, and finally send out the payment.
+## Webhooks
+When your app sends a transaction, your server also recieves a notification with:
+1. The username and password of the specific device
+2. The amount of Kin the device spent
+3. The invoice details
+
+From here, you server can perform further actions, such as sending a loot box to the device. You can learn  more about webhooks by going through the server tutorials.
+
+## Congratulations
+Your app is now set up to:
+1. Listen and display changes in Kin balance
+2. Send Kin
+
+The Kin SDK is extremely verstatile. We encourage you to look through the class to see how it has wrapped and implemented it. Make sure you go through the server tutorials, to see how to implement Kin on the server
