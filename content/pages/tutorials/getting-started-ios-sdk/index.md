@@ -69,7 +69,7 @@ kin.address()
 
 ### Tracking balances and payments
 
-During instantiation, you passed two closures to your app. Here is a sample implementation of these clusures:
+During instantiation, you passed two closures to your app. Here is a sample implementation of these closures:
 
 ```swist
 onBalanceChanged: { [weak self] balance in
