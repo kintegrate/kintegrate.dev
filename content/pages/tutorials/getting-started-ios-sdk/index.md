@@ -21,11 +21,11 @@ Make sure you have read [Getting Started](/tutorials/getting-started/) and have 
 ## Implementing Kin in your app
 1. Make sure your project is set up for [cocoapods](https://guides.cocoapods.org/using/using-cocoapods.html)
 
-2. Add the Kin SDK to your [Podfile](https://github.com/richiereitz/kin-starter-ios/blob/main/Podfile)
+2. Add the Kin SDK to your [Podfile](https://github.com/kintegrate/kin-starter-ios/blob/main/Podfile)
 
 - Make sure to `pod install` after updating the podfile. This will bring the Kin SDK into your project
 
-3. Add the [Kin.swift](https://github.com/richiereitz/kin-starter-ios/blob/main/kin-starter-ios/Kin.swift) class to your app
+3. Add the [Kin.swift](https://github.com/kintegrate/kin-starter-ios/blob/main/kin-starter-ios/Kin.swift) class to your app
 
 - The class abstracts some of the calls to Kin's official SDK and is usable out of the box. But feel free to modify/extend it to your needs.
 
@@ -51,7 +51,7 @@ Make sure you have read [Getting Started](/tutorials/getting-started/) and have 
     )
     ```
       - The `app index` and `public address` are used by the Kin foundation to track blockchain transactions your app makes, and also authorize fee-less transactions for your app.
-6. See [ViewController.swift](https://github.com/richiereitz/kin-starter-ios/blob/main/kin-starter-ios/ViewController.swift) for instantiation and sample calls
+6. See [ViewController.swift](https://github.com/kintegrate/kin-starter-ios/blob/main/kin-starter-ios/ViewController.swift) for instantiation and sample calls
 
 Congratulations! You now have a Kin enabled app running!
 

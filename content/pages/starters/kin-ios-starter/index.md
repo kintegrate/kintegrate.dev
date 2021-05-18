@@ -21,8 +21,8 @@ Make sure you have read [Getting Started](/tutorials/getting-started/) and have 
 ## Installation
 
 1. Make sure your project is set up for [cocoapods](https://guides.cocoapods.org/using/using-cocoapods.html)
-2. Add the kin SDK to your [Podfile](https://github.com/richiereitz/kin-starter-ios/blob/main/Podfile)
-3. Add the [Kin.swift](https://github.com/richiereitz/kin-starter-ios/blob/main/kin-starter-ios/Kin.swift) class to your app
+2. Add the kin SDK to your [Podfile](https://github.com/kintegrate/kin-starter-ios/blob/main/Podfile)
+3. Add the [Kin.swift](https://github.com/kintegrate/kin-starter-ios/blob/main/kin-starter-ios/Kin.swift) class to your app
 4. Make sure you have added an [app icon](https://developer.apple.com/tutorials/mac-catalyst/updating-the-app-icon)
 5. Instantiate the class in any `class`.
    - Instantiation requires several variables from the getting started section:
@@ -42,7 +42,7 @@ Make sure you have read [Getting Started](/tutorials/getting-started/) and have 
     )
     ```
    
-6. See [ViewController.swift](https://github.com/richiereitz/kin-starter-ios/blob/main/kin-starter-ios/ViewController.swift) for instantiation and sample calls
+6. See [ViewController.swift](https://github.com/kintegrate/kin-starter-ios/blob/main/kin-starter-ios/ViewController.swift) for instantiation and sample calls
 
 ## Note on Webhooks
 
