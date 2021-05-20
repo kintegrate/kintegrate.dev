@@ -54,7 +54,7 @@ However, you can safely test your device code without turning on your webhooks.
 
 A demo App is included that you can run and test. To use the app:
 
-1. Pull https://github.com/richiereitz/kin-starter-ios into a local folder
+1. Pull https://github.com/kintegrate/kin-starter-ios into a local folder
 2. Open the kin-starter-ios.xcworkspace file.
 3. Click run in xcode to run
 
