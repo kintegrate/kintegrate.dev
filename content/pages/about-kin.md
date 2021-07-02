@@ -117,7 +117,7 @@ The following resources will help you add Kin to your app.
     
 2.  [Kin’s official documentation](https://docs.kin.org/intro) deep dives into client and server architecture, with more detailed concepts covered
     
-3.  Join our [Developer Discord](https://discord.gg/urqVCnNy4G) for live tech support on any issues you are stuck in
+3.  Join our [Developer Discord](https://discord.gg/kdRyUNmHDn) for live tech support on any issues you are stuck in
 
 ## Apply for a Jumpstart Grant
 
